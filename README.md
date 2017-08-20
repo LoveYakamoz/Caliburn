@@ -26,6 +26,7 @@
 
 
 ### HOW
+以下项目资源列表，由[Dongmingwei](https://zhuanlan.zhihu.com/p/22275595?refer=python-cn)整理，也非常符合自己的学习之路。因此记录下来。
 初学者推荐阅读项目
 1. GitHub - kennethreitz/pip-pop: Tools for managing requirements files.
 
@@ -89,6 +90,8 @@
 
 最后，功不唐捐。
 
+### 感谢
 
-
+[Wangshunping](https://github.com/wangshunping)
+[Dongmingwei](https://zhuanlan.zhihu.com/p/22275595?refer=python-cn)
 
