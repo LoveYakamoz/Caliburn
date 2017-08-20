@@ -22,7 +22,7 @@
 
 让自己的代码更加Pythonic
 
-帮且他人，学习Python代码
+帮助他人，学习Python代码
 
 
 ### HOW
