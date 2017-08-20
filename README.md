@@ -27,12 +27,13 @@
 
 ### HOW
 以下项目资源列表，由[Dongmingwei](https://zhuanlan.zhihu.com/p/22275595?refer=python-cn)整理，也非常符合自己的学习之路。因此记录下来。
+
 初学者推荐阅读项目
-1. GitHub - kennethreitz/pip-pop: Tools for managing requirements files.
+1. [pip-pop](https://github.com/kennethreitz/pip-pop): Tools for managing requirements files.
 
-2. GitHub - kennethreitz/envoy: Python Subprocesses for Humans™.
+2. [envoy](https://github.com/kennethreitz/envoy): Python Subprocesses for Humans™.
 
-3. GitHub - kennethreitz/records: SQL for Humans™
+3. [records](https://github.com/kennethreitz/records): SQL for Humans™
 
 4. GitHub - mitsuhiko/pluginbase: A simple but flexible plugin system for Python.
 
