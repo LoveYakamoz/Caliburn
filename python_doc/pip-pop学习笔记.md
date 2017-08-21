@@ -11,7 +11,36 @@
 
 
 ## 简介
-作用
+因为平时需要处理很多requirements.txt文件，令人烦恼。所以K神就自己搞了这个小工具
+文件目录
+
+=======bin
+
+&emsp;　|___ pip-diff.py  : 比较给定的两个requirements文件的不同，列出 stale or fresh packages.
+
+&emsp;　|___ pip-grep.py  : 在给定的一个requirements文件中，搜索指定的package
+
+=======tests
+
+&emsp;　|___ test-requirements.txt   用于测试的requirements文件
+
+&emsp;　|___ test-requirements2.txt  用于测试的requirements文件
+
+.gitignore :github过滤的配置文件
+
+.travis.yml：持续集成travis的配置文件
+
+LICENSE
+
+README.rst
+
+requirements.txt
+
+setup.py ：安装方法
+
+tox.ini ：openstack的测试工具配置文件
+
+
 
 各文件意义
 
