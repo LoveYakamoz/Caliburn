@@ -1,10 +1,11 @@
-<img src="https://github.com/LoveYakamoz/Caliburn/blob/master/image/caliburn.png" width="532" height="112" />
-
+![](./image/caliburn.png)
 ### 缘起
 
-接触了一年多的python, 我感觉遇到了瓶颈。
+2012年，我在研究最大熵模型时，第一次接触到了python, 而正是这惊鸿一瞥，让我对它有了莫名的好感。
 
-当前自己可以根据需求来写出符合功能要求的python代码，并按照TDD的开发方法，交付一个可靠的模块，但是自己的能力似乎也就到此为止了。但我深刻地意识到与其他高手的水平相差很大
+虽然工作中主要使用C语言，但在日志分析中，python却发挥着重要作用。也仅限于寥寥几行的python代码，自己终究未能驾驭它。尤其最近一年，我不禁感慨自己遇到了瓶颈。
+
+当前自己可以根据需求来写出符合功能要求的python代码，并交付一个可靠的模块，但是自己的能力似乎也就到此为止了。但我深刻地意识到与其他高手的水平相差很大。
 
 终于在GITHUB上遇到了[wangshunping](https://github.com/wangshunping), 两人有非常多的相似，并深受启发。
 
