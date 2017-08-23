@@ -1,55 +1,77 @@
 # pip-pop学习笔记
 
-作者：[Kenneth Reitz](https://www.kennethreitz.org/)
+开源代码作者：[Kenneth Reitz](https://www.kennethreitz.org/)
 
 ![](../image/kennethreitz.jpg)
 
-目前为止， pip-pop提交了41个commit, 看来学习会稍微简单一些。
 
-该库包含两个小工具：pip-diff 和 pip-grep
 
 
 
 ## 简介
-Python项目中必须包含一个 requirements.txt 文件，用于记录所有依赖包及其精确的版本号。以便新环境部署。也正是因此，平时需要处理很多requirements.txt文件，令人烦恼。所以K神就自己搞了这个小工具
-文件目录
+Python项目中必须包含一个 requirements.txt 文件，用于记录所有依赖包及其精确的版本号。以便新环境部署。也正是因此，平时需要处理很多requirements.txt文件，令人烦恼。所以K神就自己搞了这个小工具。目前为止， pip-pop提交了41个commit, 看来学习会稍微简单一些。
 
-=======bin
+该库包含两个小工具：pip-diff 和 pip-grep
+
+其中pip-diff用于判断两个requirements文件中哪些依赖包是fresh,哪些是stale的。 
+
+* 用图形化表示为：
+
+![](../image/requirement_file_1_2.png)
+
+则：
+
+fresh requirement_file_1  requirement_file_2 的结果为：
+
+Django==1.9.6
+
+gunicorn
+
+
+stale requirement_file_1  requirement_file_2 的结果为：
+
+cffi
+
+django
+
+* 文件目录
+
+|=======bin
 
 &emsp;　|___ pip-diff.py  : 比较给定的两个requirements文件的不同，列出 stale or fresh packages.
 
 &emsp;　|___ pip-grep.py  : 在给定的一个requirements文件中，搜索指定的package
 
-=======tests
+|=======tests
 
 &emsp;　|___ test-requirements.txt   用于测试的requirements文件
 
 &emsp;　|___ test-requirements2.txt  用于测试的requirements文件
 
-.gitignore :github过滤的配置文件
+| .gitignore :github过滤的配置文件
 
-.travis.yml：持续集成travis的配置文件
+| .travis.yml：持续集成travis的配置文件
 
-LICENSE
+| LICENSE
 
-README.rst
+| README.rst
 
-requirements.txt
+| requirements.txt
 
-setup.py ：打包工具
+| setup.py ：打包工具
 
-tox.ini ：openstack的测试工具配置文件
+| tox.ini ：openstack的测试工具配置文件
 
 
 ## 开发历程
 
  * Jul 23, 2014（第一天）：主要是初始化工程，包括License文件， Readme，requirement,setup.py等文件。从这一开发过程来看，还是属于RDD（Readme Driven Develop)方法. 而这与公司推行的敏捷开发方法大体相同。不过Github中的项目文档要求更加简洁化。另外markdown是写文档的利器。
 
- * Jul 25, 2014：pip-diff工具开发完毕，后又经过部分修改，在Jul 30, 完成diff工具
+ * Jul 25, 2014：pip-diff工具开发完毕，后又经过部分修改，在Jul 30, 完成diff工具。
 
- * Aug 1, 2014 ~ Aug 22, 2014: 完成pip-grep，至此第一个v0.1.0版本完成
+ * Aug 1, 2014 ~ Aug 22, 2014: 完成pip-grep，至此第一个v0.1.0版本完成。
 
- * 后续每年也就只有3或5个更新，版本变化不大，毕竟此库相对比较简单
+ * 后续每年也就只有3或5个更新，版本变化不大，毕竟此库相对比较简单。
 
 ## 代码剖析
 注：删除部分代码，便于理清代码结构
@@ -243,6 +265,42 @@ PS: 内容节选自 http://www.jb51.net/article/63672.htm
     
 
 ### docopt
+项目地址：https://github.com/docopt/docopt.git
+以下内容来源于docopt的README.rst
+
+* docopt creates beautiful command-line interfaces。
+
+* The basic idea is that a good help message has all necessary information in it to make a parser.
+
+* API
+
+        from docopt import docopt
+        docopt(doc, argv=None, help=True, version=None, options_first=False)
+        docopt takes 1 required and 4 optional arguments:
+
+1. **doc** could be a module docstring (\_\_doc\_\_) or some other string that contains a help message that will be parsed to create the option parser. The simple rules of how to write such a help message are given in next sections. Here is a quick example of such a string:
+
+        """Usage: my_program.py [-hso FILE] [--quiet | --verbose] [INPUT ...]
+
+        -h --help    show this
+        -s --sorted  sorted output
+        -o FILE      specify output file [default: ./test.txt]
+        --quiet      print less text
+        --verbose    print more text
+
+        """
+2. **argv** is an optional argument vector; by default docopt uses the argument vector passed to your program (sys.argv[1:]). Alternatively you can supply a list of strings like ['--verbose', '-o', 'hai.txt'].
+
+3. **help**, by default True, specifies whether the parser should automatically print the help message (supplied as doc) and terminate, in case -h or --help option is encountered (options should exist in usage pattern, more on that below). If you want to handle -h or --help options manually (as other options), set help=False.
+
+4. **version**, by default None, is an optional argument that specifies the version of your program. If supplied, then, (assuming --version option is mentioned in usage pattern) when parser encounters the --version option, it will print the supplied version and terminate. version could be any printable object, but most likely a string, e.g. "2.1.0rc1".
+
+        Note, when docopt is set to automatically handle -h, --help and --version
+        options, you still need to mention them in usage pattern for this to work.
+        Also, for your users to know about them.
+
+5. **options_first**, by default False. If set to True will disallow mixing options and positional argument. I.e. after first positional argument, all arguments will be interpreted as positional even if the look like options. This can be used for strict compatibility with POSIX, or if you want to dispatch your arguments to other programs.
+
 ### kwargs使用
 ### __repr__使用，以及与str的不同
 ### setup.py打包工具
