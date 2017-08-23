@@ -76,97 +76,148 @@ django
 ## 代码剖析
 注：删除部分代码，便于理清代码结构
 ### pip-diff
-核心类：
+* 核心类：
 
-    class Requirements(object):
-    
-    def __init__(self, reqfile=None):
-        super(Requirements, self).__init__()
-        self.path = reqfile
-        self.requirements = []
+        class Requirements(object):
+        
+        def __init__(self, reqfile=None):
+            super(Requirements, self).__init__()
+            self.path = reqfile
+            self.requirements = []
 
-        if reqfile:
-            self.load(reqfile)
+            if reqfile:
+                self.load(reqfile)
 
-    def load(self, reqfile):
-        """ 主要是获得该requirement文件中的依赖包， 注意不统计被注释的行"""
-        if not os.path.exists(reqfile):
-            raise ValueError('The given requirements file does not exist.')
+        def load(self, reqfile):
+            """ 主要是获得该requirement文件中的依赖包， 注意不统计被注释的行"""
+            if not os.path.exists(reqfile):
+                raise ValueError('The given requirements file does not exist.')
 
-        with open(reqfile) as f:
-            data = []
+            with open(reqfile) as f:
+                data = []
 
-            for line in f:
-                line = line.strip()
+                for line in f:
+                    line = line.strip()
 
-                # Skip lines that start with any comment/control charecters.
-                if not any([line.startswith(p) for p in IGNORABLE_LINES]):
-                    data.append(line)
+                    # Skip lines that start with any comment/control charecters.
+                    if not any([line.startswith(p) for p in IGNORABLE_LINES]):
+                        data.append(line)
 
-            for requirement in parse_requirements(data):
-                self.requirements.append(requirement)
+                for requirement in parse_requirements(data):
+                    self.requirements.append(requirement)
 
 
-    def diff(self, requirements, ignore_versions=False):
-        """ 统计出两个requirements文件的 fresh及stale依赖包"""
-        r1 = self
-        r2 = requirements
-        results = {'fresh': [], 'stale': []}
+        def diff(self, requirements, ignore_versions=False):
+            """ 统计出两个requirements文件的 fresh及stale依赖包"""
+            r1 = self
+            r2 = requirements
+            results = {'fresh': [], 'stale': []}
 
-        # Generate fresh packages.
-        other_reqs = (
-            [r.project_name for r in r1.requirements]
-            if ignore_versions else r1.requirements
-        )
+            # Generate fresh packages.
+            other_reqs = (
+                [r.project_name for r in r1.requirements]
+                if ignore_versions else r1.requirements
+            )
 
-        for req in r2.requirements:
-            r = req.project_name if ignore_versions else req
+            for req in r2.requirements:
+                r = req.project_name if ignore_versions else req
 
-            if r not in other_reqs:
-                results['fresh'].append(req)
+                if r not in other_reqs:
+                    results['fresh'].append(req)
 
-        # Generate stale packages.
-        other_reqs = (
-            [r.project_name for r in r2.requirements]
-            if ignore_versions else r2.requirements
-        )
+            # Generate stale packages.
+            other_reqs = (
+                [r.project_name for r in r2.requirements]
+                if ignore_versions else r2.requirements
+            )
 
-        for req in r1.requirements:
-            r = req.project_name if ignore_versions else req
+            for req in r1.requirements:
+                r = req.project_name if ignore_versions else req
 
-            if r not in other_reqs:
-                results['stale'].append(req)
+                if r not in other_reqs:
+                    results['stale'].append(req)
 
-        return results
+            return results
 
-对外接口：
+* 对外接口：
 
     提供diff接口，注意该接口与Requirements类中的接口名相同。PS: 不知道为何这样命名？
-    def diff(r1, r2, include_fresh=False, include_stale=False):
-        try:
-            r1 = Requirements(r1)
-            r2 = Requirements(r2)
-        except ValueError:
-            print 'There was a problem loading the given requirements files.'
-            exit(os.EX_NOINPUT)
+        def diff(r1, r2, include_fresh=False, include_stale=False):
+            try:
+                r1 = Requirements(r1)
+                r2 = Requirements(r2)
+            except ValueError:
+                print 'There was a problem loading the given requirements files.'
+                exit(os.EX_NOINPUT)
 
-        results = r1.diff(r2)
-        print results
+            results = r1.diff(r2)
+            print results
 
-使用方法：
+* 使用方法：
 
-    kwargs = {
-        'r1': args['<reqfile1>'],
-        'r2': args['<reqfile2>'],
-        'include_fresh': args['--fresh'],
-        'include_stale': args['--stale']
-    }
+        kwargs = {
+            'r1': args['<reqfile1>'],
+            'r2': args['<reqfile2>'],
+            'include_fresh': args['--fresh'],
+            'include_stale': args['--stale']
+        }
 
-    diff(**kwargs)
+        diff(**kwargs)
 
 
 ### pip-grep
+* 核心类：
 
+        class Requirements(object):
+            def __init__(self, reqfile=None):
+                super(Requirements, self).__init__()
+                self.path = reqfile
+                self.requirements = []
+
+                if reqfile:
+                    self.load(reqfile)
+
+            def __repr__(self):
+                return '<Requirements \'{}\'>'.format(self.path)
+
+            def load(self, reqfile):
+                if not os.path.exists(reqfile):
+                    raise ValueError('The given requirements file does not exist.')
+
+                finder = PackageFinder([], [], session=requests)
+                for requirement in parse_requirements(reqfile, finder=finder, session=requests):
+                    if requirement.req:
+                        if not getattr(requirement.req, 'name', None):
+                            # Prior to pip 8.1.2 the attribute `name` did not exist.
+                            requirement.req.name = requirement.req.project_name
+                        self.requirements.append(requirement.req)
+
+* 对外接口：
+
+        def grep(reqfile, packages, silent=False):
+            try:
+                r = Requirements(reqfile)
+            except ValueError:
+                if not silent:
+                    print('There was a problem loading the given requirement file.')
+                exit(os.EX_NOINPUT)
+
+            for req in r.requirements:
+                if req.name in packages:
+                    if not silent:
+                        print('Package {} found!'.format(req.name))
+                    exit(0)
+
+            if not silent:
+                print('Not found.')
+
+            exit(1)
+
+* 使用方法：
+
+        kwargs = {'reqfile': args['<reqfile>'], 'packages': args['<package>'], 'silent': args['-s']}
+
+        grep(**kwargs)
 
 
 ## 新知识点

@@ -27,7 +27,7 @@
 ### HOW
 以下项目资源列表，由[Dongmingwei](https://zhuanlan.zhihu.com/p/22275595?refer=python-cn)整理，也非常符合自己的学习之路。因此记录下来。
 
-初学者推荐阅读项目
+入门项目
 1. [pip-pop](https://github.com/kennethreitz/pip-pop): Tools for managing requirements files.
 
 2. [envoy](https://github.com/kennethreitz/envoy): Python Subprocesses for Humans™.
@@ -50,7 +50,7 @@
 
 11. [docopt](https://github.com/docopt/docopt.git): Creates beautiful command-line interfaces.
 
-进阶阅读项目
+进阶项目
 
 1. faif/python-patterns。使用Python实现一些设计模式的例子。
 
