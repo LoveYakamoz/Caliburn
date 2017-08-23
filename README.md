@@ -48,6 +48,8 @@
 
 10. GitHub - kennethreitz/tablib: Python Module for Tabular Datasets in XLS, CSV, JSON, YAML, &c.
 
+11. [docopt](https://github.com/docopt/docopt.git): Creates beautiful command-line interfaces.
+
 进阶阅读项目
 
 1. faif/python-patterns。使用Python实现一些设计模式的例子。
