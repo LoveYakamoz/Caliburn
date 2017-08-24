@@ -142,6 +142,7 @@ django
 * 对外接口：
 
     提供diff接口，注意该接口与Requirements类中的接口名相同。PS: 不知道为何这样命名？
+
         def diff(r1, r2, include_fresh=False, include_stale=False):
             try:
                 r1 = Requirements(r1)
@@ -221,8 +222,10 @@ django
 
 
 ## 新知识点
+
 ### super
-### raise ValueError
+参考：[调用父类方法](http://python3-cookbook.readthedocs.io/zh_CN/latest/c08/p07_calling_method_on_parent_class.html)
+
 ### format 
 PS: 内容节选自 http://www.jb51.net/article/63672.htm
 
@@ -321,7 +324,7 @@ PS: 内容节选自 http://www.jb51.net/article/63672.htm
 
 * docopt creates beautiful command-line interfaces。
 
-* The basic idea is that a good help message has all necessary information in it to make a parser.
+* The basic idea is that **a good help message has all necessary information in it to make a parser.**
 
 * API
 
@@ -353,6 +356,84 @@ PS: 内容节选自 http://www.jb51.net/article/63672.htm
 5. **options_first**, by default False. If set to True will disallow mixing options and positional argument. I.e. after first positional argument, all arguments will be interpreted as positional even if the look like options. This can be used for strict compatibility with POSIX, or if you want to dispatch your arguments to other programs.
 
 ### kwargs使用
-### __repr__使用，以及与str的不同
+*args: Non-keyword variable arguments 表示没有key值
+
+**kwargs：keyword variable arguments  表示带有key值
+
+主要用于不定参的函数调用，如下代码：
+
+        def func_var_args(farg, *args):
+            print 'arg:', farg
+            for value in args:
+                print 'another arg:', value
+
+        def func_var_kwargs(farg, **kwargs):
+            print 'arg:', farg
+            for key in kwargs:
+                print 'another pair arg [%s: %s]' %(key, kwargs[key])
+
+        if __name__ == '__main__':
+            func_var_args(1, 'two', 3) # 'two', 3被存在在了args中
+
+            print '========================================'
+            func_var_kwargs(farg=1, myarg2='two', myarg3=3) # myarg2='two', myarg3=3被存在kwargs中
+            print '========================================'
+            
+            #不带参数也是可以的
+            func_var_args(1)
+            print '========================================'
+            func_var_kwargs(2)
+
+### __repr__使用
+        __str__()用于显示给用户，而__repr__()用于显示给开发人员。
 ### setup.py打包工具
-  www.cnblogs.com/maociping/p/6633948.html
+setup工具可以实现将依赖包与软件一起打包发布，并在目标机器上，使用python set_up.py install安装。
+
+如 pip-pop库中的示例：
+
+    """
+    pip-pop manages your requirements files.
+    """
+    import sys
+    from setuptools import setup
+
+
+    setup(
+        name='pip-pop',
+        version='0.1.0',
+        url='https://github.com/kennethreitz/pip-pop',
+        license='MIT',
+        author='Kenneth Reitz',
+        author_email='me@kennethreitz.org',
+        description=__doc__.strip('\n'),
+        #packages=[],
+        scripts=['bin/pip-diff', 'bin/pip-grep'],
+        #include_package_data=True,
+        zip_safe=False,
+        platforms='any',
+        install_requires=['docopt', 'pip>=1.5.0'],
+        tests_require=['tox'],
+        classifiers=[
+            # As from https://pypi.python.org/pypi?%3Aaction=list_classifiers
+            #'Development Status :: 1 - Planning',
+            #'Development Status :: 2 - Pre-Alpha',
+            #'Development Status :: 3 - Alpha',
+            'Development Status :: 4 - Beta',
+            #'Development Status :: 5 - Production/Stable',
+            #'Development Status :: 6 - Mature',
+            #'Development Status :: 7 - Inactive',
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 2',
+            'Programming Language :: Python :: 2.7',
+            'Programming Language :: Python :: 3',
+            'Programming Language :: Python :: 3.4',
+            'Programming Language :: Python :: 3.5',
+            'Programming Language :: Python :: Implementation :: CPython',
+            'Programming Language :: Python :: Implementation :: PyPy',
+            'Intended Audience :: Developers',
+            'Intended Audience :: System Administrators',
+            'License :: OSI Approved :: BSD License',
+            'Operating System :: OS Independent',
+            'Topic :: System :: Systems Administration',
+        ]
+    )
