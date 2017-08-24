@@ -32,23 +32,25 @@
 
 2. [envoy](https://github.com/kennethreitz/envoy): Python Subprocesses for Humans™.
 
-3. [records](https://github.com/kennethreitz/records): SQL for Humans™
+3. [delegator.py](https://github.com/kennethreitz/delegator.py.git) Delegator.py is a simple library for dealing with subprocesses for Humans 2.0, inspired by both envoy and pexpect (in fact, it depends on it!).
 
-4. GitHub - mitsuhiko/pluginbase: A simple but flexible plugin system for Python.
+4. [records](https://github.com/kennethreitz/records): SQL for Humans™
 
-5. GitHub - mitsuhiko/pipsi: pip script installer
+5. GitHub - mitsuhiko/pluginbase: A simple but flexible plugin system for Python.
 
-6. GitHub - mitsuhiko/unp: Unpacks things.
+6. GitHub - mitsuhiko/pipsi: pip script installer
 
-7. GitHub - chrisallenlane/cheat
+7. GitHub - mitsuhiko/unp: Unpacks things.
 
-8. GitHub - jek/blinker: A fast Python in-process signal/event dispatching system.
+8. GitHub - chrisallenlane/cheat
 
-9. GitHub - mitsuhiko/platter: A useful helper for wheel deployments.
+9. GitHub - jek/blinker: A fast Python in-process signal/event dispatching system.
 
-10. GitHub - kennethreitz/tablib: Python Module for Tabular Datasets in XLS, CSV, JSON, YAML, &c.
+10. GitHub - mitsuhiko/platter: A useful helper for wheel deployments.
 
-11. [docopt](https://github.com/docopt/docopt.git): Creates beautiful command-line interfaces.
+11. GitHub - kennethreitz/tablib: Python Module for Tabular Datasets in XLS, CSV, JSON, YAML, &c.
+
+12. [docopt](https://github.com/docopt/docopt.git): Creates beautiful command-line interfaces.
 
 进阶项目
 
