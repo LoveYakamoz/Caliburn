@@ -57,14 +57,46 @@ Python .....
 
 * 使用方法：
 
-        
-
+    
 
 ## 新知识点
  * sys.version_info
+    sys.version字符串提供了安装的python版本信息。sys.version_info返回的是元组形式
+
+        import sys
+        print (sys.version)
+        输出： 3.6.2 (v3.6.2:5fd33b5, Jul  8 2017, 04:57:36) [MSC v.1900 64 bit (AMD64)]
+        
+        print (sys.version_info)
+        输出： sys.version_info(major=3, minor=6, micro=2, releaselevel='final', serial=0)
+
+    如envoy代码中，判断当前安装的python版本是否是3.x
+
+        if sys.version_info[0] >= 3:
+            pass
 
 
  * subprocess
+    在python中，可以通过标准库中的subprocess包来fork一个子进程， 用于运行一个外面的程序。subprocess包中定义了多个创建子进程的函数。如下：
+
+    subprocess.call()
+    
+    subprocess.check_call()
+
+    subprocess.check_output()
+
+    以上三个用法类似，以subprocess.call做为例子，来讲解：
+
+        import subprocess
+        retcode = subprocess.call(["ls", "-l"])
+        print retcode
+
+    实际上以上三个方法均是对subprocess.Popen()方法的封装。这些封装的目的是为了更方法的使用子进程。但是如果有个性化需求时，就要转向Popen类。该类生成的对象用来代码子进程。与上述三个接口不同， Popen创建后，主进程并不会自动等待子进程完成，即是非阻塞的。 如果要实现阻塞式，需要显式的调用wait()方法。如：
+
+        import subprocess
+        child = subprocess.Popen(['ping','-c','4','blog.linuxeye.com'])
+        child.wait() #如果省略此行代码，则子进程在结束前就会执行下面的打印
+        print 'parent process'
 
  * threading
     python提供了两个模块来实现多线程，即基本的，低级别的thread和高级别的threading. 在这里我们主要学习threading模块。以做饭为例：
@@ -140,3 +172,4 @@ Python .....
     
  * shlex库
     
+    shlex库让我们非常方便地为类似Shell的简单语法写一个词法分析器。
